@@ -1,0 +1,19 @@
+module uart_tb;
+reg clk; reg rst; reg start; reg [7:0] data_in;
+wire [7:0] data_out; wire done; wire tx;
+uart DUT (.clk(clk), .rst(rst),.start(start),.data_in(data_in),.data_out(data_out),
+.done(done),.tx(tx));
+always#5 clk = ~clk;
+initial begin
+    clk = 0;
+    rst = 1;
+    start = 0;
+    data_in = 8'h00;
+    #20 rst = 0;
+    #20 data_in = 8'hA5;
+    start = 1;
+    #10 start = 0;
+    #1200;
+    $finish;
+end
+endmodule
